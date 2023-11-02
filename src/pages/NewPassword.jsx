@@ -60,7 +60,7 @@ const NewPassword = () => {
 
     return (
         <>
-            <h1 className="text-sky-600 font-black text-6xl capitalize">Restore your password and don&apos;t loose access to your {''}
+            <h1 className="text-sky-600 font-black text-6xl capitalize">Restore your password and don&apos;t lose access to your {''}
                 <span className="text-slate-700">projects</span>
             </h1>
 
