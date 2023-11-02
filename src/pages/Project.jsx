@@ -29,30 +29,37 @@ const Project = () => {
   }, [])
 
   useEffect(() => {
-    socket.on("added task", newTask => {
-      if(newTask.project === project._id) {
-          submitProjectTask(newTask)
-      }
-    })
+    const unSub = () => {
+      socket.emit('close project', params.id);
+      socket.off();
+    };
 
-    socket.on('deleted task', deletedTask => {
-      if(deletedTask.project === project._id) {
-        deleteProjectTask(deletedTask)
+    socket.on('added task', (newTask) => {
+      if (newTask.project === project._id) {
+        submitProjectTask(newTask);
       }
-    })
+    });
 
-    socket.on('updated task', updatedTask => {
-      if(updatedTask.project._id === project._id) {
-        updateProjectTask(updatedTask)
+    socket.on('deleted task', (deletedTask) => {
+      if (deletedTask.project === project._id) {
+        deleteProjectTask(deletedTask);
       }
-    })
+    });
 
-    socket.on('new state', newTaskState => {
-      if(newTaskState.project._id === project._id) {
-        changeTaskState(newTaskState)
+    socket.on('updated task', (updatedTask) => {
+      if (updatedTask.project._id === project._id) {
+        updateProjectTask(updatedTask);
       }
-    })
-  })
+    });
+
+    socket.on('new state', (newTaskState) => {
+      if (newTaskState.project._id === project._id) {
+        changeTaskState(newTaskState);
+      }
+    });
+
+    return unSub;
+  });
 
   const { name } = project
   if(loading) return 'Loading...'
